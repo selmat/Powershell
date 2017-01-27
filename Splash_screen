@@ -1,0 +1,36 @@
+[void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
+[void] [System.Reflection.Assembly]::LoadWithPartialName("System.Drawing")
+
+#Generate GUI window
+$img = [System.Drawing.Image]::Fromfile(".\pics\01.png")
+$img3  = [system.drawing.image]::FromFile(".\pics\02.png")
+
+$Form = New-Object system.Windows.Forms.Form
+$Form.width = 380
+$Form.height = 150
+$Form.BackgroundImage = $img3
+
+$pictureBox2 = new-object Windows.Forms.PictureBox
+$pictureBox2.Width =  $img.Size.Width
+$pictureBox2.Height =  $img.Size.Height
+$pictureBox2.Location = New-Object System.Drawing.Size(50,30)
+$pictureBox2.Image = $img
+$pictureBox2.BackColor = "Transparent"
+$Form.controls.add($pictureBox2)
+
+#Remove windows control (minimazation, maximization, close)
+$Form.ControlBox = $false
+$Form.startposition = "centerscreen"
+$Form.FormBorderStyle = "fixeddialog"
+$Font = New-Object System.Drawing.Font("Times New Roman",12,[System.Drawing.FontStyle]::Bold)
+
+$Form.Font = $Font
+$Label = New-Object System.Windows.Forms.Label
+$Label.Text = "Connecting..."
+$Label.Location = New-Object System.Drawing.Size(155,100)
+$Label.AutoSize = $True
+$Label.BackColor = "Transparent"
+$Form.Controls.Add($Label)
+
+#Display window
+$Form.ShowDialog()
