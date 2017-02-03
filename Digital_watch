@@ -1,0 +1,30 @@
+#CODE FOR GUI DIGITAL WATCH WRITTEN IN POWERSHELL
+[void][reflection.assembly]::LoadWithPartialName("System.Windows.Forms")
+
+$form = New-Object System.Windows.Forms.Form
+$form.Size = New-Object System.Drawing.Size(150,150)
+$LinkLabel1 = New-Object System.Windows.Forms.LinkLabel
+$LinkLabel1.Location = New-Object System.Drawing.Size(30,50)
+$LinkLabel1.Size = New-Object System.Drawing.Size(50,20)
+$LinkLabel1.Text = get-date -format T
+$form.Controls.Add($LinkLabel1)
+
+function startTimer() { 
+   $timer.start()
+}
+
+#TIMER DEFINITION
+$timer = New-Object System.Windows.Forms.Timer
+$timer.Interval = 1000
+$timer.add_tick({UpdateTime})
+
+#STARTING TIMER
+startTimer
+
+#FUNCTION FOR UPDATING TEXT LABEL
+function UpdateTime{
+$LinkLabel1.Text = get-date -format T
+}
+
+$Form.Add_Shown({$Form.Activate()})
+[void] $Form.ShowDialog()
