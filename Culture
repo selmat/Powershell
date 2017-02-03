@@ -1,0 +1,16 @@
+
+#content of cc.csv
+#
+#"COUNTRY","CODE","PHONE"
+#"SLOVAKIA","sk-SK","+421 000 123 456"
+#"CZECH","cz-CZ","+420 000 123 456"
+#"SWITZERLAND","de-CH","+41 000 123 456"
+#"GERMANY","de-DE","+49 000 123 456"
+
+
+
+$culture = get-culture
+$country = Import-Csv .\cc.csv
+
+$country_phone = $country | Where {$_.CODE -eq $culture.Name}
+echo $country_phone.PHONE
