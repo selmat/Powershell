@@ -1,0 +1,14 @@
+$timer = New-Object System.Timers.Timer
+Register-ObjectEvent -InputObject $timer `
+	-MessageData 10 `
+	-SourceIdentifier Stateful -EventName Elapsed -Action {
+	$script:counter += 1
+	Write-Host "Number of iterations: $counter"
+	if ($counter -ge $Event.MessageData){
+		Write-Host "STOP COUNTER"
+		$timer.Stop()
+	}
+} > $null 
+#----------------------
+#Run $timer
+$timer.Start()
