@@ -1,0 +1,10 @@
+#Present Working Directory
+
+$scriptPath = [System.AppDomain]::CurrentDomain.BaseDirectory.TrimEnd('\')
+#$scriptPath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath(‘.\’)  ## different format
+#$scriptPath = [System.AppDomain]::CurrentDomain.BaseDirectory  ## different format
+
+if ($scriptPath -eq $PSHOME.TrimEnd('\'))
+{
+    $scriptPath = $PSScriptRoot
+}
