@@ -1,0 +1,65 @@
+[void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
+[void] [System.Reflection.Assembly]::LoadWithPartialName("System.Drawing")
+
+$objForm = New-Object System.Windows.Forms.Form 
+$objForm.Text = "XXX_WINDOWS_XXX"
+$objForm.Size = New-Object System.Drawing.Size(300,300) 
+$objForm.StartPosition = "CenterScreen"
+
+$objForm.KeyPreview = $True
+$objForm.Add_KeyDown({if ($_.KeyCode -eq "Enter") 
+    {$x=$objListBox.SelectedItem;$objForm.Close()}})
+$objForm.Add_KeyDown({if ($_.KeyCode -eq "Escape") 
+    {$objForm.Close()}})
+
+$objListBox = New-Object System.Windows.Forms.ListBox 
+$objListBox.Location = New-Object System.Drawing.Size(10,40) 
+$objListBox.Size = New-Object System.Drawing.Size(260,120) 
+$objListBox.Height = 120
+$objListBox.Add_DoubleClick({write-host  $objListBox.SelectedItems[0];$objListBox.Items.Remove($objListBox.SelectedItems[0])})
+
+$objLabel = New-Object System.Windows.Forms.Label
+$objLabel.Location = New-Object System.Drawing.Size(10,20) 
+$objLabel.Size = New-Object System.Drawing.Size(280,20) 
+$udalosti = $objListBox.Items.Count
+$objLabel.Text = "New events"
+$objForm.Controls.Add($objLabel) 
+
+[void] $objListBox.Items.Add("event-001")
+[void] $objListBox.Items.Add("event-002")
+[void] $objListBox.Items.Add("event-003")
+[void] $objListBox.Items.Add("event-004")
+[void] $objListBox.Items.Add("event-005")
+[void] $objListBox.Items.Add("event-006")
+[void] $objListBox.Items.Add("event-007")
+$objForm.Controls.Add($objListBox) 
+
+Function Addfc{
+$objListBox.Items.Add("event-008")
+$objListBox.Items.Add("event-009")
+}
+
+$OKButton = New-Object System.Windows.Forms.Button
+$OKButton.Location = New-Object System.Drawing.Size(75,220)
+$OKButton.Size = New-Object System.Drawing.Size(75,23)
+$OKButton.Text = "OK"
+$OKButton.Add_Click({$x=$objListBox.SelectedItem; $objListBox.Items.Remove($x); write-host $x})
+$objForm.Controls.Add($OKButton)
+
+$ADDButton = New-Object System.Windows.Forms.Button
+$ADDButton.Location = New-Object System.Drawing.Size(15,220)
+$ADDButton.Size = New-Object System.Drawing.Size(55,23)
+$ADDButton.Text = "ADD"
+$ADDButton.Add_Click({Addfc;$objListBox.Refresh();})
+$objForm.Controls.Add($ADDButton)
+
+$CancelButton = New-Object System.Windows.Forms.Button
+$CancelButton.Location = New-Object System.Drawing.Size(170,220)
+$CancelButton.Size = New-Object System.Drawing.Size(75,23)
+$CancelButton.Text = "Cancel"
+$CancelButton.Add_Click({$objForm.Close()})
+$objForm.Controls.Add($CancelButton)
+
+$objForm.Topmost = $True
+$objForm.Add_Shown({$objForm.Activate()})
+[void] $objForm.ShowDialog()
