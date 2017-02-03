@@ -1,0 +1,35 @@
+#LISTVIEW DEFINITION
+$objListView = New-Object System.Windows.Forms.ListView
+$objListView.View = [System.Windows.Forms.View]::Details
+$objListView.FullRowSelect = $true
+$LVcol1 = New-Object System.Windows.Forms.ColumnHeader
+$objListView.Columns.AddRange(
+  [System.Windows.Forms.ColumnHeader[]](
+  @($LVcol1))) 
+$LVcol1.Text = "Nove udalosti"
+$LVcol1.Width = 165
+
+$objListView.Location = New-Object System.Drawing.Size(10,40) 
+$objListView.Size = New-Object System.Drawing.Size(260,120) 
+$objListView.Height = 120
+$objListView.Add_DoubleClick({Clicked;$objListView.Items.Remove($objListView.SelectedItems[0])})
+$objForm.Controls.Add($objListView) 
+
+#DEFINITION OF ICON DISPLAYING LOGIC
+$global:imageListSmall = new-Object System.Windows.Forms.ImageList
+$global:bitm2=[System.Drawing.Image]::FromFile("c:\psn\AAA.ico") 
+$global:bitm=[System.Drawing.Image]::FromFile("c:\psn\BBB.ico")     
+$global:imageListSmall.Images.Add("AAA",$bitm)
+$global:imageListSmall.Images.Add("BBB",$bitm2)
+	
+function Icon($command){
+		
+	if ($command -like '*AAA*'){
+	$objListBox.SmallImageList = $imageListSmall;
+	$objListBox.Items.Add($command,1)
+	}
+	
+	if ($command -like '*BBB*'){
+	$objListBox.SmallImageList = $imageListSmall;
+	$objListBox.Items.Add($command,0)
+}
