@@ -1,0 +1,22 @@
+$Notify = {
+	[void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
+	[void] [System.Reflection.Assembly]::LoadWithPartialName("System.Drawing")
+
+			$time = get-date -format T
+			$objNotifyIcon = New-Object System.Windows.Forms.NotifyIcon 
+			$objNotifyIcon.Icon = "C:\psn\message.ico"
+			$objNotifyIcon.BalloonTipIcon = "Info" 
+			$objNotifyIcon.BalloonTipText = "New event, $time" 
+			$objNotifyIcon.BalloonTipTitle = "New message"
+			$objNotifyIcon.Visible = $True
+			$objNotifyIcon.ShowBalloonTip(30000)
+}
+
+Start-Job $Notify |  Receive-Job
+
+while ($Counter -lt 10000){
+	Write-Host $Counter
+	$Counter++
+}
+
+Remove-Job *
