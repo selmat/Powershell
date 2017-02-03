@@ -1,0 +1,24 @@
+#USAGE: $message = .\tcp-receive.ps1 -Port 1234
+
+    param ( [ValidateNotNullOrEmpty()] 
+        [int] $Port
+    ) 
+    try { 
+     
+        $endpoint = new-object System.Net.IPEndPoint([ipaddress]::any,$port) 
+        $listener = new-object System.Net.Sockets.TcpListener $EndPoint
+        $listener.start() 
+ 
+        $data = $listener.AcceptTcpClient() # will block here until connection 
+        $bytes = New-Object System.Byte[] 1024
+        $stream = $data.GetStream() 
+ 
+        while (($i = $stream.Read($bytes,0,$bytes.Length)) -ne 0){
+            $EncodedText = New-Object System.Text.ASCIIEncoding
+            $data = $EncodedText.GetString($bytes,0, $i)
+            Write-Output $data
+        }
+         
+        $stream.close()
+        $listener.stop()
+}catch [exception]{}
